@@ -1,0 +1,1 @@
+loadBalance=cn.jw.loadbalance.loadbalancer.ConsistentHashLoadBalance

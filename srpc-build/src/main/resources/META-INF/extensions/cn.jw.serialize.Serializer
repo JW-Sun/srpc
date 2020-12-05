@@ -1,0 +1,2 @@
+kyro=cn.jw.serialize.kyro.KryoSerializer
+protostuff=cn.jw.serialize.protostuff.ProtostuffSerializer
