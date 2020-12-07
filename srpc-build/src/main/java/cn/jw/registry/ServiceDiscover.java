@@ -13,5 +13,4 @@ public interface ServiceDiscover {
      * @return
      */
     InetSocketAddress lookupService(String rpcServiceName);
-
 }

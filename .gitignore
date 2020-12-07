@@ -1,0 +1,3 @@
+# Project exclude paths
+/srpc-build/target/
+/srpc-common/target/

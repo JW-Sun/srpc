@@ -1,6 +1,7 @@
 package cn.jw.compress.gzip;
 
-import github.javaguide.compress.Compress;
+
+import cn.jw.compress.Compress;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,7 +14,7 @@ import java.util.zip.GZIPOutputStream;
  * @createTime on 2020/10/3
  */
 
-public class GzipCompress  implements Compress {
+public class GzipCompress implements Compress {
 
 
     private static final int BUFFER_SIZE = 1024 * 4;
