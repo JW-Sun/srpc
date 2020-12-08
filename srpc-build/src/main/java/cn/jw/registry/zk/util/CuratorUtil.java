@@ -1,6 +1,7 @@
 package cn.jw.registry.zk.util;
 
 import cn.jw.enums.RpcConfigEnum;
+import cn.jw.registry.zk.ZkServiceDiscovery;
 import cn.jw.utils.PropertiesFileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.RetryPolicy;
@@ -16,7 +17,9 @@ import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -122,9 +125,29 @@ public final class CuratorUtil {
     }
 
     public static void main(String[] args) {
-        String pp = CuratorUtil.ZK_REGISTER_ROOT_PATH + "/test-01";
+        String pp = CuratorUtil.ZK_REGISTER_ROOT_PATH + "/test-01/ds:3232";
         CuratorFramework zkClient = CuratorUtil.getZkClient();
-        CuratorUtil.createPersistentNode(zkClient, pp);
+        //CuratorUtil.createPersistentNode(zkClient, pp);
+        //List<String> childrenNodes = CuratorUtil.getChildrenNodes(zkClient, "test-01");
+        //for (String childrenNode : childrenNodes) {
+        //    System.out.println(childrenNode);
+        //}
+
+        // add持久化节点
+        //for (int i = 0; i < 1000; i++) {
+        //    String host = UUID.randomUUID().toString().substring(0, 3);
+        //    int port = new Random().nextInt(10000);
+        //    pp = CuratorUtil.ZK_REGISTER_ROOT_PATH + "/test-01/" + host + ":" + port;
+        //    CuratorUtil.createPersistentNode(zkClient, pp);
+        //}
+
+        /* 负载均衡获得服务调用地址 */
+        ZkServiceDiscovery zkServiceDiscovery = new ZkServiceDiscovery();
+        for (int i = 0; i < 500; i++) {
+            InetSocketAddress inetSocketAddress = zkServiceDiscovery.lookupService("test-01");
+            System.out.println(inetSocketAddress.toString());
+        }
+
     }
 
 }

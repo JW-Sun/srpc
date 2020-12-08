@@ -106,6 +106,8 @@ public final class NettyRpcClient implements RpcRequestTransport {
     public Object sendRpcRequest(RpcRequest rpcRequest) throws ExecutionException, InterruptedException {
         CompletableFuture<RpcResponse<Object>> resFuture = new CompletableFuture<>();
         String rpcServiceName = rpcRequest.toRpcProperties().toRpcServiceName();
+
+        /* 客户端发送请求的地址，是通过负载均衡来进行实现 */
         InetSocketAddress inetSocketAddress = serviceDiscover.lookupService(rpcServiceName);
 
         // 获得channel
@@ -115,7 +117,7 @@ public final class NettyRpcClient implements RpcRequestTransport {
             unprocessedRequests.put(rpcRequest.getRequestId(), resFuture);
             RpcMessage rpcMessage = new RpcMessage();
             rpcMessage.setData(rpcRequest);
-            rpcMessage.setCodec(SerializationTypeEnum.PROTOSTUFF.getCode());
+            rpcMessage.setCodec(SerializationTypeEnum.KYRO.getCode());
             rpcMessage.setCompress(CompressTypeEnum.GZIP.getCode());
             rpcMessage.setMessageType(RpcConstants.REQUEST_TYPE);
 
