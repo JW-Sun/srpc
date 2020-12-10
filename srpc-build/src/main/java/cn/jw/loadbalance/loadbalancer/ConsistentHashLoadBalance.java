@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,9 +19,11 @@ public class ConsistentHashLoadBalance extends AbstractLoadBalance {
 
     @Override
     protected String doLoadBalanceSelect(List<String> addressList, String rpcServiceName) {
+        int hashcode = addressList.hashCode();
+        System.out.println(hashcode);
         int consistentHashCode = System.identityHashCode(addressList);
         ConsistentHashSelector selector = map.get(rpcServiceName);
-        if (selector == null || selector.identityHashCode != consistentHashCode) {
+        if (selector == null || selector.identityHashCode != hashcode) {
             map.put(rpcServiceName, new ConsistentHashSelector(addressList, 180, consistentHashCode));
             selector = map.get(rpcServiceName);
         }
@@ -64,6 +67,7 @@ public class ConsistentHashLoadBalance extends AbstractLoadBalance {
         }
 
         static long hash(byte[] digest, int idx) {
+            idx = new Random().nextInt(4);
             return ((long) (digest[3 + idx * 4] & 255) << 24 | (long) (digest[2 + idx * 4] & 255) << 16 | (long) (digest[1 + idx * 4] & 255) << 8 | (long) (digest[idx * 4] & 255)) & 4294967295L;
         }
 

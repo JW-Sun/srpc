@@ -132,6 +132,11 @@ public final class CuratorUtil {
         //for (String childrenNode : childrenNodes) {
         //    System.out.println(childrenNode);
         //}
+        //
+        //for (int i = 0; i < 10; i++) {
+        //    List<String> childrenNodes1 = CuratorUtil.getChildrenNodes(zkClient, "test-01");
+        //    System.out.println(childrenNodes1.hashCode());
+        //}
 
         // add持久化节点
         //for (int i = 0; i < 1000; i++) {
